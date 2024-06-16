@@ -19,30 +19,46 @@ const fromSupabase = async (query) => {
 
 /* supabase integration types
 
-table: events
-    id: number
-    created_at: string
-    name: string
-    date: string
-    venue: number // foreign key to venues.id
+// EXAMPLE TYPES SECTION
+// DO NOT USE TYPESCRIPT
 
-table: comments
+table: foos
     id: number
-    created_at: string
-    content: string
-    event_id: number // foreign key to events.id
-    is_pinned: boolean
-    is_highlighted: boolean
+    title: string
 
-table: venues
+table: bars
     id: number
-    created_at: string
-    name: string
-    capacity: number
-    type: string
-
+    foo_id: number // foreign key to foos
+	
 */
 
-// Hooks for events table
+// Example hook for models
 
+export const useFoo = ()=> useQuery({
+    queryKey: ['foos'],
+    queryFn: fromSupabase(supabase.from('foos')),
+})
+export const useAddFoo = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (newFoo)=> fromSupabase(supabase.from('foos').insert([{ title: newFoo.title }])),
+        onSuccess: ()=> {
+            queryClient.invalidateQueries('foos');
+        },
+    });
+};
+
+export const useBar = ()=> useQuery({
+    queryKey: ['bars'],
+    queryFn: fromSupabase(supabase.from('bars')),
+})
+export const useAddBar = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (newBar)=> fromSupabase(supabase.from('bars').insert([{ foo_id: newBar.foo_id }])),
+        onSuccess: ()=> {
+            queryClient.invalidateQueries('bars');
+        },
+    });
+};
 
