@@ -2,6 +2,7 @@ import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from '../integ
 import { useState } from 'react';
 import { Box, Button, Input, VStack, Text, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Heading } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const Events = () => {
   const { data: events, isLoading, error } = useEvents();
@@ -38,6 +39,7 @@ const Events = () => {
   return (
     <Box p={4}>
       <Heading as="h1" size="xl" mb={4}>Events</Heading>
+      <Button colorScheme="blue" size="lg" as={Link} to="/create-event" mb={4}>Create Event</Button>
       <Box mb={4} position="relative">
         <Input 
           placeholder="Search events" 
@@ -71,7 +73,7 @@ const Events = () => {
                 <Td color="blue.500">{new Date(event.date).toLocaleDateString()}</Td>
                 <Td color="blue.500">{event.venue}</Td>
                 <Td>
-                  <Button size="sm" variant="link" color="blue.500" onClick={() => setEditingEvent(event)}>Edit</Button>
+                  <Button size="sm" variant="link" color="blue.500" as={Link} to={`/edit-event/${event.id}`}>Edit</Button>
                 </Td>
               </Tr>
             ))}
