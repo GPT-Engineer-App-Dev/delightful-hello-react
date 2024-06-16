@@ -1,6 +1,7 @@
 import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from '../integrations/supabase/index.js';
 import { useState } from 'react';
-import { Box, Button, Input, VStack, HStack, Text, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react';
+import { Box, Button, Input, VStack, HStack, Text, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Heading } from '@chakra-ui/react';
+import { FaSearch } from 'react-icons/fa';
 
 const Events = () => {
   const { data: events, isLoading, error } = useEvents();
@@ -36,17 +37,24 @@ const Events = () => {
 
   return (
     <Box p={4}>
+      <Heading as="h1" size="xl" mb={4}>Events</Heading>
       <VStack spacing={4}>
-        <Input 
-          placeholder="Search events" 
-          value={searchTerm} 
-          onChange={(e) => setSearchTerm(e.target.value)} 
-          mb={4}
-          borderRadius="md"
-          borderColor="gray.300"
-          _placeholder={{ color: 'gray.500' }}
-        />
-        <TableContainer>
+        <Box position="relative" width="100%">
+          <Input 
+            placeholder="Search events" 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            mb={4}
+            borderRadius="md"
+            borderColor="gray.300"
+            _placeholder={{ color: 'gray.500' }}
+            pl={10}
+          />
+          <Box position="absolute" top="50%" left={3} transform="translateY(-50%)">
+            <FaSearch color="gray.500" />
+          </Box>
+        </Box>
+        <TableContainer width="100%">
           <Table variant="simple">
             <Thead>
               <Tr>
