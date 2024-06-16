@@ -1,7 +1,7 @@
 import { useEvents, useAddEvent, useUpdateEvent, useDeleteEvent } from '../integrations/supabase/index.js';
 import { useState } from 'react';
 import { Box, Button, Input, VStack, Text, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Heading } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 const Events = () => {
   const { data: events, isLoading, error } = useEvents();
@@ -48,7 +48,7 @@ const Events = () => {
           _placeholder={{ color: 'gray.500' }}
           pl={10}
         />
-        <SearchIcon position="absolute" left={3} top="50%" transform="translateY(-50%)" color="gray.500" />
+        <AiOutlineSearch position="absolute" left={3} top="50%" transform="translateY(-50%)" color="gray.500" />
       </Box>
       <TableContainer border="1px" borderColor="gray.200" borderRadius="md">
         <Table variant="simple">
