@@ -1,6 +1,6 @@
 import { useEvents, useDeleteEvent } from '../integrations/supabase/index.js';
 import { useState } from 'react';
-import { Box, Button, Input, VStack, Text, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Heading } from '@chakra-ui/react';
+import { Box, Button, Input, VStack, Text, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Heading, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
@@ -9,10 +9,7 @@ const Events = () => {
   
   const deleteEvent = useDeleteEvent();
 
-  
   const [searchTerm, setSearchTerm] = useState('');
-
-  
 
   const handleDeleteEvent = (id) => {
     deleteEvent.mutate(id);
@@ -30,7 +27,10 @@ const Events = () => {
     <Box p={4}>
       <Heading as="h1" size="xl" mb={4}>Events</Heading>
       <Button colorScheme="blue" size="lg" as={Link} to="/create-event" mb={4}>Create Event</Button>
-      <Box mb={4} position="relative">
+      <InputGroup mb={4}>
+        <InputLeftElement pointerEvents="none">
+          <AiOutlineSearch color="gray.500" />
+        </InputLeftElement>
         <Input 
           placeholder="Search events" 
           value={searchTerm} 
@@ -40,8 +40,7 @@ const Events = () => {
           _placeholder={{ color: 'gray.500' }}
           pl={10}
         />
-        <AiOutlineSearch position="absolute" left={3} top="50%" transform="translateY(-50%)" color="gray.500" />
-      </Box>
+      </InputGroup>
       <TableContainer border="1px" borderColor="gray.200" borderRadius="md">
         <Table variant="simple">
           <Thead bg="gray.50">
@@ -70,7 +69,6 @@ const Events = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      
     </Box>
   );
 };
