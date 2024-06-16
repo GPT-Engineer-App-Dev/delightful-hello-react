@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, Input, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, Heading, SimpleGrid, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useEvent, useUpdateEvent } from '../integrations/supabase/index.js';
 import { useParams } from 'react-router-dom';
