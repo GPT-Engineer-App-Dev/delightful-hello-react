@@ -1,46 +1,41 @@
-import { Box, Button, FormControl, FormLabel, Input, Select, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, Heading, SimpleGrid } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { useEvent, useUpdateEvent } from '../integrations/supabase/index.js';
+import { useParams } from 'react-router-dom';
 
 const EditEvent = () => {
+  const { id } = useParams();
+  const { data: event, isLoading } = useEvent(id);
+  const updateEvent = useUpdateEvent();
+  const [editingEvent, setEditingEvent] = useState({ id: '', name: '', date: '', venue: '' });
+
+  useEffect(() => {
+    if (event) {
+      setEditingEvent(event);
+    }
+  }, [event]);
+
+  const handleUpdateEvent = () => {
+    updateEvent.mutate(editingEvent);
+  };
+
+  if (isLoading) return <Text>Loading...</Text>;
   return (
     <Box p={8} maxWidth="600px" mx="auto">
-      <Heading as="h1" size="lg" mb={6}>Create a new event</Heading>
+      <Heading as="h1" size="lg" mb={6}>Edit event</Heading>
       <FormControl mb={4}>
         <FormLabel>Event name</FormLabel>
-        <Input placeholder="Add a name" />
+        <Input placeholder="Add a name" value={editingEvent.name} onChange={(e) => setEditingEvent({ ...editingEvent, name: e.target.value })} />
       </FormControl>
       <FormControl mb={4}>
-        <FormLabel>Description</FormLabel>
-        <Input placeholder="Add a description" />
+        <FormLabel>Date</FormLabel>
+        <Input placeholder="Add a date" value={editingEvent.date} onChange={(e) => setEditingEvent({ ...editingEvent, date: e.target.value })} />
       </FormControl>
       <FormControl mb={4}>
-        <FormLabel>Location</FormLabel>
-        <Select placeholder="Select a location">
-          <option value="location1">Location 1</option>
-          <option value="location2">Location 2</option>
-        </Select>
+        <FormLabel>Venue</FormLabel>
+        <Input placeholder="Add a venue" value={editingEvent.venue} onChange={(e) => setEditingEvent({ ...editingEvent, venue: e.target.value })} />
       </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>Address</FormLabel>
-        <Input placeholder="Add an address" />
-      </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>Timezone</FormLabel>
-        <Select placeholder="Select a timezone">
-          <option value="timezone1">Timezone 1</option>
-          <option value="timezone2">Timezone 2</option>
-        </Select>
-      </FormControl>
-      <SimpleGrid columns={2} spacing={4} mb={4}>
-        <FormControl>
-          <FormLabel>Starts</FormLabel>
-          <Input placeholder="MM/DD/YYYY, 12:00 PM" />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Ends</FormLabel>
-          <Input placeholder="MM/DD/YYYY, 12:00 PM" />
-        </FormControl>
-      </SimpleGrid>
-      <Button colorScheme="blue" size="lg" width="full">Create event</Button>
+      <Button colorScheme="blue" size="lg" width="full" onClick={handleUpdateEvent}>Update event</Button>
     </Box>
   );
 };
