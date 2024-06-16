@@ -42,6 +42,9 @@ const Events = () => {
           value={searchTerm} 
           onChange={(e) => setSearchTerm(e.target.value)} 
           mb={4}
+          borderRadius="md"
+          borderColor="gray.300"
+          _placeholder={{ color: 'gray.500' }}
         />
         <TableContainer>
           <Table variant="simple">
